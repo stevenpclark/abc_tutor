@@ -7,9 +7,7 @@ num_sound_variants = 4
 window = pyglet.window.Window(fullscreen=True)
 window.set_exclusive_keyboard()
 
-label = pyglet.text.Label('', font_size=96,
-                            x=window.width//2, y=window.height//2,
-                            anchor_x='center', anchor_y='center')
+label = pyglet.text.Label('', anchor_x='center', anchor_y='center')
 
 font_names = ['Geneva', 'Georgia', 'Arial', 'Tahoma', 'Verdana', 'Times New Roman', 'Raleway', 'Courier New', 'Lucida Console']
 
@@ -23,8 +21,6 @@ for k in keys:
         fn = 'sounds/%s%d.wav'%(c,i)
         variants.append(pyglet.media.load(fn, streaming=False))
     sound_dict[c] = variants
-
-a = pyglet.media.load('sounds/a0.wav', streaming=False)
 
 padding = 200
 
