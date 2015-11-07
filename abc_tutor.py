@@ -5,6 +5,7 @@ import colorsys
 num_sound_variants = 4
 
 window = pyglet.window.Window(fullscreen=True)
+#window = pyglet.window.Window(fullscreen=False)
 window.set_exclusive_keyboard()
 
 label = pyglet.text.Label('', anchor_x='center', anchor_y='center')
