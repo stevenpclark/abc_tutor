@@ -1,8 +1,12 @@
 import pyglet
 import random
 import colorsys
+import time
 
 num_sound_variants = 4
+padding = 300
+min_secs_per_keypress = 0.5
+t_prev_keypress = time.time()
 
 window = pyglet.window.Window(fullscreen=True)
 #window = pyglet.window.Window(fullscreen=False)
@@ -23,7 +27,13 @@ for k in keys:
         variants.append(pyglet.media.load(fn, streaming=False))
     sound_dict[c] = variants
 
-padding = 200
+love_vars = []
+for i in range(num_sound_variants):
+    fn = 'sounds/love%d.wav'%(i)
+    love_vars.append(pyglet.media.load(fn, streaming=False))
+sound_dict[' '] = love_vars
+
+
 
 @window.event
 def on_draw():
@@ -33,11 +43,19 @@ def on_draw():
 
 @window.event
 def on_key_press(symbol, modifiers):
+    global t_prev_keypress
+    t = time.time()
+
+    if t-t_prev_keypress < min_secs_per_keypress:
+        return #we're smashing the keyboard again, take a break...
+
     try:
         c = chr(symbol)
         variants = sound_dict.get(c, None)
         if variants:
             random.choice(variants).play()
+            if c == ' ':
+                c = 'love!'
             if random.random() > 0.5:
                 label.text = c
             else:
@@ -52,6 +70,7 @@ def on_key_press(symbol, modifiers):
             color = [int(x*255) for x in color]
             color.append(255)
             label.color = color
+            t_prev_keypress = t
     except ValueError:
         pass
 
